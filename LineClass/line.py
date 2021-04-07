@@ -3,6 +3,7 @@ import random
 from math import *
 
 from kivy_garden.mapview.utils import clamp
+
 # from kivy.garden.mapview.mapview.utils import clamp
 
 from kivy.graphics import Color, Line, SmoothLine, MatrixInstruction
@@ -17,6 +18,7 @@ from kivy.garden.mapview.mapview import (
     MAX_LATITUDE,
     MAX_LONGITUDE,
 )
+
 # MIN_LONGITUDE = -180
 # MIN_LATITUDE = -90
 # MAX_LATITUDE = 90
@@ -25,6 +27,7 @@ from kivy.garden.mapview.mapview import (
 # amnonn122 commented on May 5, 2019
 # lucifermorn commented on Nov 25, 2020
 # https://github.com/kivy-garden/mapview/issues/4
+
 
 class LineMapLayer(MapLayer):
     def __init__(self, **kwargs):

@@ -29,7 +29,7 @@ from LineClass.line import LineMapLayer
 import matplotlib
 import matplotlib.pyplot as plt
 
-matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
+matplotlib.use("module://kivy.garden.matplotlib.backend_kivy")
 from kivy.garden.matplotlib.backend_kivy import FigureCanvas
 
 users_toolbar = """
@@ -84,6 +84,7 @@ ImageLeftWidget:
 
 class OtherUsersScreen(Screen):
     """Creates Screen to show all the other APP Users"""
+
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
 
@@ -99,17 +100,18 @@ class UserBoxLayout(MDBoxLayout):
     """Aids in containing the list of users"""
 
     def refresh_callback(self, *args):
-        '''A method that updates the state of your application
-        while the spinner remains on the screen.'''
+        """A method that updates the state of your application
+        while the spinner remains on the screen."""
         # https://kivymd.readthedocs.io/en/latest/components/refresh-layout/
         def refresh_callback(interval):
             """Updates user list"""
-            self.refresh_layout = self.ids['refresh_bar'] # For the RefreshLayout
+            self.refresh_layout = self.ids["refresh_bar"]  # For the RefreshLayout
             self.list_of_journeys = self.refresh_layout.clear_widgets()
             self.refresh_layout.add_widget(UsersList())
             self.refresh_layout.refresh_done()
 
         Clock.schedule_once(refresh_callback, 0.5)
+
 
 class UsersList(MDList):
     """
@@ -126,8 +128,9 @@ class UsersList(MDList):
 
         # self.screen_manager = None
 
-        self.clock = Clock.schedule_interval(self.initiate_users, 2)  # Call every 2 seconds
-
+        self.clock = Clock.schedule_interval(
+            self.initiate_users, 2
+        )  # Call every 2 seconds
 
     def initiate_users(self, instance):
         """ Add our created Journeys"""
@@ -142,16 +145,18 @@ class UsersList(MDList):
         # We need to attach a name to picked journey
         # pos = [15, 15]
         for index, item in enumerate(self.users):
-            user_name = item['username']
+            user_name = item["username"]
 
             # Using a custom Image
-            image = ImageLeftWidget(source='img/blank_user.png')
+            image = ImageLeftWidget(source="img/blank_user.png")
 
             # Image right widget is not working in the source code
-            item_image = OneLineAvatarListItem(text=user_name, on_press=self.picked_user)
+            item_image = OneLineAvatarListItem(
+                text=user_name, on_press=self.picked_user
+            )
             # # image.pos = item_image.pos
             item_image.add_widget(image)  # Here we add the image to the widget
-            item_image.other_user_info = item   # Attach User Info
+            item_image.other_user_info = item  # Attach User Info
 
             self.add_widget(item_image)  # We add it the MDList Class
 

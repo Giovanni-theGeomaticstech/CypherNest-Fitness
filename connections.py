@@ -7,15 +7,19 @@ import json
 import uuid
 
 # User Based Functions
-def registration(username: str, email: str, password: str, firstname: str, lastname: str) -> requests:
+def registration(
+    username: str, email: str, password: str, firstname: str, lastname: str
+) -> requests:
     """ User Registration """
     request_info = requests.post(
         "https://cypher-fitness-app.herokuapp.com/api/register/",
-        data={"username": username,
-              "firstname": firstname,
-              "lastname": lastname,
-              "email": email,
-              "password": password},
+        data={
+            "username": username,
+            "firstname": firstname,
+            "lastname": lastname,
+            "email": email,
+            "password": password,
+        },
     )
     # Note I can get the status_code
     # .json() would give me the
@@ -46,7 +50,9 @@ def logout(token: str) -> str:
         token -> From the login
     """
     header = {"Authorization": f"Token {token}"}  # Build the authorization header
-    request_info = requests.get("https://cypher-fitness-app.herokuapp.com/api/logout/", headers=header)
+    request_info = requests.get(
+        "https://cypher-fitness-app.herokuapp.com/api/logout/", headers=header
+    )
     return request_info
 
 
@@ -56,14 +62,18 @@ def logout_all(token: str) -> str:
         token -> From the login
     """
     header = {"Authorization": f"Token {token}"}  # Build the authorization header
-    request_info = requests.get("https://cypher-fitness-app.herokuapp.com/api/logout-all/", headers=header)
+    request_info = requests.get(
+        "https://cypher-fitness-app.herokuapp.com/api/logout-all/", headers=header
+    )
     return request_info
 
 
 def user_data(token: str) -> json:
     """ Get A Single User"""
     header = {"Authorization": f"Token {token}"}  # Build the authorization header
-    request_info = requests.get("https://cypher-fitness-app.herokuapp.com/api/user/", headers=header)
+    request_info = requests.get(
+        "https://cypher-fitness-app.herokuapp.com/api/user/", headers=header
+    )
     return request_info.json()  # user info
 
 
@@ -74,7 +84,9 @@ def user_list() -> list:
     Return is a list of Dicts
     """
 
-    request_info = requests.get("https://cypher-fitness-app.herokuapp.com/api/user_list/")
+    request_info = requests.get(
+        "https://cypher-fitness-app.herokuapp.com/api/user_list/"
+    )
 
     return request_info.json()
 
@@ -82,34 +94,30 @@ def user_list() -> list:
 # Journey Based Functions
 
 
-def create_journey_json(data: list, speed=[], altitude=[],
-                        time=[], bearing=[]) -> json:
+def create_journey_json(data: list, speed=[], altitude=[], time=[], bearing=[]) -> json:
     """ Making the GeoJSON OBJECT FOR OUR JOURNEY"""
 
     properties = {
-            "speed": speed,
-            "time": time,
-            "altitude": altitude,
-            "bearing": bearing
-        }
+        "speed": speed,
+        "time": time,
+        "altitude": altitude,
+        "bearing": bearing,
+    }
     if not speed:
         geojson_obj = {
-            "geometry": {
-                "type": "LineString",
-                "coordinates": data}  # Coordinates
+            "geometry": {"type": "LineString", "coordinates": data}  # Coordinates
         }
     else:
         geojson_obj = {
-            "properties":properties,
-            "geometry": {
-                "type": "LineString",
-                "coordinates": data}  # Coordinates
+            "properties": properties,
+            "geometry": {"type": "LineString", "coordinates": data},  # Coordinates
         }
     return geojson_obj
 
 
-def journey_post(data: list, speed: list, altitude: list, time: list, bearing: list,
-                 token: str) -> requests:
+def journey_post(
+    data: list, speed: list, altitude: list, time: list, bearing: list, token: str
+) -> requests:
     """ Adding a new Journey to the database"""
     journey = create_journey_json(data, speed, altitude, time, bearing)
     journey_json = json.dumps(journey)  # When I edit the view use this
@@ -129,7 +137,9 @@ def journey_list(user_id: int) -> list:
     """
 
     # user = user_data(token)
-    request_info = requests.get(f"https://cypher-fitness-app.herokuapp.com/api/journey_list/{user_id}")
+    request_info = requests.get(
+        f"https://cypher-fitness-app.herokuapp.com/api/journey_list/{user_id}"
+    )
     return request_info.json()
 
 
@@ -141,6 +151,8 @@ def retrieve_journey(id: uuid):
     Returns a Journey
     """
 
-    request_info = requests.get(f"https://cypher-fitness-app.herokuapp.com/api/retrieve_journey/{id}")
+    request_info = requests.get(
+        f"https://cypher-fitness-app.herokuapp.com/api/retrieve_journey/{id}"
+    )
 
     return request_info.json()

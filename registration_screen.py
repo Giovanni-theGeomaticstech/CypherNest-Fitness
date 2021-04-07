@@ -117,6 +117,7 @@ MDTextField:
         size: "300dp", "100dp"
 """
 
+
 class RegisterScreen(Screen):
     """Here We are going to custom build our login Screen
         to stick mostly with Python implementation for Familiarity"""
@@ -139,7 +140,7 @@ class RegisterScreen(Screen):
             spacing=10,
             size=("350dp", "400dp"),
             pos_hint={"center_y": 0.45},
-            orientation='vertical',
+            orientation="vertical",
             adaptive_size=True,
             adaptive_height=True,
             adaptive_width=True,
@@ -185,7 +186,9 @@ class RegisterScreen(Screen):
         self.add_widget(self.card_layout)
 
     def submit_data(self, instance):
-        go_to_login_button = MDFlatButton(text="Go to Login", on_release=self.close_dialog)
+        go_to_login_button = MDFlatButton(
+            text="Go to Login", on_release=self.close_dialog
+        )
         close_button = MDFlatButton(text="Close", on_release=self.close_dialog)
 
         # Add the buttons field to add buttons to dialog
@@ -203,17 +206,17 @@ class RegisterScreen(Screen):
                 email=self.email.text,
                 password=self.password.text,
                 firstname=self.firstname.text,
-                lastname=self.lastname.text
+                lastname=self.lastname.text,
             )  # registration interface
 
             # SO SOME REQUEST FUNCTIONS
             errors = "errors" not in list(self.registration_success.json())
-            if not errors: # True
-                error_json = self.registration_success.json()['errors']
+            if not errors:  # True
+                error_json = self.registration_success.json()["errors"]
         else:
             self.registration_success = False
             errors = False
-            error_json = {"Data": 'Fields were not filled'}
+            error_json = {"Data": "Fields were not filled"}
 
         if self.registration_success and errors:
             self.dialog.title = "Successful User Registration"
@@ -246,4 +249,3 @@ class RegisterScreen(Screen):
 
         if self.success:
             self.go_to_login(instance=None)
-           

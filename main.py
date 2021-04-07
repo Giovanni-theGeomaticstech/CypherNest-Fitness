@@ -23,7 +23,6 @@ import numpy as np
 import os
 
 
-
 # App Lifecycle
 # https://kivy.org/doc/stable/guide/basic.html
 
@@ -31,27 +30,29 @@ import os
 # https://kivy.org/doc/stable/api-kivy.uix.screenmanager.html
 
 # Available Theme colours for icons/widgets in our application
-theme_colours = np.array([
-    "Red",
-    "Pink",
-    "Purple",
-    "DeepPurple",
-    "Indigo",
-    "Blue",
-    "LightBlue",
-    "Cyan",
-    "Teal",
-    "Green",
-    "LightGreen",
-    "Lime",
-    "Yellow",
-    "Amber",
-    "Orange",
-    "DeepOrange",
-    "Brown",
-    "Gray",
-    "BlueGray",
-])
+theme_colours = np.array(
+    [
+        "Red",
+        "Pink",
+        "Purple",
+        "DeepPurple",
+        "Indigo",
+        "Blue",
+        "LightBlue",
+        "Cyan",
+        "Teal",
+        "Green",
+        "LightGreen",
+        "Lime",
+        "Yellow",
+        "Amber",
+        "Orange",
+        "DeepOrange",
+        "Brown",
+        "Gray",
+        "BlueGray",
+    ]
+)
 
 # All Components
 # https://kivymd.readthedocs.io/en/latest/components/toolbar/index.html
@@ -75,14 +76,15 @@ class MainApp(MDApp):
         - Map Screen (Creating a new Journey)
         - Other Users Screen (Show Information for Other Users)
     """
+
     path = "cache"
     filename = "user_token.txt"
 
     def build(self):
         """This Builds our Application"""
 
-        self.sm = ScreenManager() # Here we build screen Manager
-    
+        self.sm = ScreenManager()  # Here we build screen Manager
+
         return self.sm
 
     def on_start(self):
@@ -95,9 +97,7 @@ class MainApp(MDApp):
         # Define our application theme
         # Choosable theme colours from ThemeManager
 
-        self.theme_cls.primary_palette = theme_colours[
-            3
-        ]
+        self.theme_cls.primary_palette = theme_colours[3]
 
         ##############################################################
         # Creating / Accessing User token from File for cached login
@@ -105,26 +105,25 @@ class MainApp(MDApp):
         if not os.path.exists(cache_folder):
             os.makedirs(cache_folder)
             self.file_path = os.path.join(cache_folder, self.filename)
-        
+
         self.file_path = os.path.join(cache_folder, self.filename)
 
         try:
-            with open(self.file_path, 'r') as f:
-                self.user_file_token = f.read() # Make this accessible to login page
+            with open(self.file_path, "r") as f:
+                self.user_file_token = f.read()  # Make this accessible to login page
                 f.close()
                 # print(self.user_file_token)
-        except (AttributeError, FileNotFoundError): # Create If File not found
+        except (AttributeError, FileNotFoundError):  # Create If File not found
             with open(self.file_path, "w") as f:
                 # f.write('')
-                self.user_file_token = ''
+                self.user_file_token = ""
                 f.close()
         ################################################################
-
 
         # Profile Screen (1)
         self.profile_screen = ProfileScreen()
         self.sm.add_widget(self.profile_screen)  # Add it to the screen manager
-         # Login Screen (2)
+        # Login Screen (2)
         self.login_screen = LoginScreen()
         self.sm.add_widget(self.login_screen)  # Add it to the screen manager
 
@@ -141,7 +140,9 @@ class MainApp(MDApp):
         # The normal lists takes 71.5 seconds while numpy took 6.1 seconds thus 11 times faster
         # This is important for when we are moving around and changing our coordinates
         # self.curr_journey_points = np.array([]) # We initialize this at the start of our application to store coordinates
-        self.curr_journey_points = None # We initialize this at the start of our application to store coordinates
+        self.curr_journey_points = (
+            None
+        )  # We initialize this at the start of our application to store coordinates
 
         # Other Users Screen (5)
         self.other_users_screen = OtherUsersScreen()
@@ -152,6 +153,7 @@ class MainApp(MDApp):
         self.sm.add_widget(self.registration_screen)
 
         self.sm.current = "Login"  # Start up Screen
+
 
 if __name__ == "__main__":
     """Run our App"""

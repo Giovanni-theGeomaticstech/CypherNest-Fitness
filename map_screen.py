@@ -15,6 +15,7 @@ from plyer import gps
 # For our database connection
 import json
 from connections import journey_post, create_journey_json, retrieve_journey
+
 # from kivy_garden.mapview.geojson import GeoJsonMapLayer
 from LineClass.line import LineMapLayer
 
@@ -58,10 +59,10 @@ class MapScreen(Screen):
                 attribution="",
             ),
             # Built In in the Kivy_map package
-            "osm": "osm", # The default
+            "osm": "osm",  # The default
             "osm-hot": "osm-hot",
-            "osm-de": "osm-de", # Dutch OSM
-            "osm-fr": "osm-fr", # French OSM
+            "osm-de": "osm-de",  # Dutch OSM
+            "osm-fr": "osm-fr",  # French OSM
             "cyclemap": "cyclemap",
             "thunderforest-cycle": "thunderforest-cycle",
             "thunderforest-transport": "thunderforest-transport",
@@ -103,26 +104,30 @@ class MapScreen(Screen):
         """ Deactivate GPS Tracking """
         self.gps_blinker = self.children[0].ids["blinker"]  # Our Blinker
 
-        journey_coordinates = self.gps_blinker.stop_blink() # We get the coordinates of the Journey (Numpy Array)
+        journey_coordinates = (
+            self.gps_blinker.stop_blink()
+        )  # We get the coordinates of the Journey (Numpy Array)
 
         # POST OUR JOURNEY TO THE DATABASE
         running_app = MDApp.get_running_app().root
-        token = running_app.user_token  # Special User Token/Identification for Authentication
+        token = (
+            running_app.user_token
+        )  # Special User Token/Identification for Authentication
 
         # Transform an Numpy Array to a normal a list so it can be serialized (JSONified)
         if platform in ["android", "ios"]:
-            journey_post(data=journey_coordinates.tolist(),
-                         speed=self.gps_blinker.speed.tolist(),
-                         time=self.gps_blinker.journey_time.tolist(),
-                         bearing=self.gps_blinker.bearing.tolist(),
-                         altitude=self.gps_blinker.altitude.tolist(),
-                         token=token)
-            gps.stop() # We stop the GPS FROM THE PLYER MODULE
+            journey_post(
+                data=journey_coordinates.tolist(),
+                speed=self.gps_blinker.speed.tolist(),
+                time=self.gps_blinker.journey_time.tolist(),
+                bearing=self.gps_blinker.bearing.tolist(),
+                altitude=self.gps_blinker.altitude.tolist(),
+                token=token,
+            )
+            gps.stop()  # We stop the GPS FROM THE PLYER MODULE
 
             # View the journey
-            self.view_journey(
-                data=journey_coordinates
-            ) 
+            self.view_journey(data=journey_coordinates)
 
     def view_journey(self, data=None):
         """ Display Journey On the Map
@@ -132,7 +137,7 @@ class MapScreen(Screen):
         ########################################
         # For the Journey outside
         self.mapview = self.children[0].ids["mapview"]  # Our Map
-        self.change_map(instance=None) # Change the type of map
+        self.change_map(instance=None)  # Change the type of map
         ########################################
 
         if data.any():
@@ -148,7 +153,9 @@ class MapScreen(Screen):
 
             try:
                 center_value = data[1].tolist()
-                self.mapview.center_on(center_value[0], center_value[1])  # Idea is to center it on the location of map
+                self.mapview.center_on(
+                    center_value[0], center_value[1]
+                )  # Idea is to center it on the location of map
             except IndexError:
                 center_value = data[0].tolist()
 
@@ -157,16 +164,18 @@ class MapScreen(Screen):
 class GpsActivate:
     """ Activating the GPS"""
 
-    has_centered_map = False # For Map Center
-    time = 0 # For Journey Time
+    has_centered_map = False  # For Map Center
+    time = 0  # For Journey Time
     lat_save = None
     long_save = None
 
     def run(self):
         """ RUN our GPS """
 
-        self.gps_access_granted = False # Once the user allows access
-        self.gps_blinker = MDApp.get_running_app().root.screens[3].children[0].ids["blinker"]
+        self.gps_access_granted = False  # Once the user allows access
+        self.gps_blinker = (
+            MDApp.get_running_app().root.screens[3].children[0].ids["blinker"]
+        )
 
         # Start blinking the GpsBlinker
         self.gps_blinker.blink()  # The method for this class is where I need to be updating stuff
@@ -186,7 +195,7 @@ class GpsActivate:
                     )  # Here we configure auth
                     # We can get speed, lat, long, bearing, altitude
                     # https://github.com/kivy/plyer/blob/master/plyer/facades/gps.py
-                    gps.start(minTime=1000, minDistance=0) # 300 milliseconds
+                    gps.start(minTime=1000, minDistance=0)  # 300 milliseconds
                 else:
                     print("Did not get all permissions")
 
@@ -206,19 +215,21 @@ class GpsActivate:
 
     def update_blinker_position(self, *args, **kwargs):
         """ Updating Blinker Position with the GPS Coordinates """
-        
+
         my_lat = kwargs["lat"]
         my_lon = kwargs["lon"]
         my_speed = kwargs["speed"]
         my_altitude = kwargs["altitude"]
         my_bearing = kwargs["bearing"]
 
-        if ([self.lat_save, self.long_save] != [my_lat, my_lon]): # if you are moving
+        if [self.lat_save, self.long_save] != [my_lat, my_lon]:  # if you are moving
             self.lat_save = my_lat
             self.long_save = my_lon
 
             # Update GpsBlinker position
-            self.gps_blinker = MDApp.get_running_app().root.screens[3].children[0].ids["blinker"] # Attempting to fix position update
+            self.gps_blinker = (
+                MDApp.get_running_app().root.screens[3].children[0].ids["blinker"]
+            )  # Attempting to fix position update
             self.gps_blinker.lat = my_lat
             self.gps_blinker.lon = my_lon
 
@@ -226,12 +237,16 @@ class GpsActivate:
             # current_screen = MDApp.get_running_app().root.screens[3]
             # label = current_screen.children[0].ids['temp_speed']
             # label.text = f"Current Speed: {[my_speed]} , Current lat/long: {[my_lat, my_lon]} "
-            
+
             # We are adding the extra data
-            self.gps_blinker.journey_time = np.append(self.gps_blinker.journey_time, self.time) # Note time in milliseconds
-            self.time+=1
+            self.gps_blinker.journey_time = np.append(
+                self.gps_blinker.journey_time, self.time
+            )  # Note time in milliseconds
+            self.time += 1
             self.gps_blinker.speed = np.append(self.gps_blinker.speed, my_speed)
-            self.gps_blinker.altitude = np.append(self.gps_blinker.altitude, my_altitude)
+            self.gps_blinker.altitude = np.append(
+                self.gps_blinker.altitude, my_altitude
+            )
             self.gps_blinker.bearing = np.append(self.gps_blinker.bearing, my_bearing)
 
             # Centering map (**Also ensures that the blinker position updates)
@@ -240,9 +255,11 @@ class GpsActivate:
                 map.center_on(my_lat, my_lon)  # Center Map
                 self.has_centered_map = True
             else:
-                self.center_map_clock = Clock.schedule_once(self.center_map_location, 2) # Center map every 2 seconds
+                self.center_map_clock = Clock.schedule_once(
+                    self.center_map_location, 2
+                )  # Center map every 2 seconds
         else:
-            self.time+=1
+            self.time += 1
 
     def on_auth_status(self, general_status, status_message):
         """ We want to call the popup to check if our GPS has been authorized """
@@ -251,7 +268,7 @@ class GpsActivate:
             # pass
         else:
             self.open_gps_access_popup()
-    
+
     def center_map_location(self, dt):
         """Re-center Map"""
         map = MDApp.get_running_app().root.screens[3].children[0].ids["mapview"]
@@ -263,13 +280,13 @@ class GpsActivate:
         dialog = MDDialog(
             title="GPS Error",
             text="You need to enable GPS access for the app to function properly",
-            buttons=[close_btn]
+            buttons=[close_btn],
         )
         self.has_centered_map = False
         dialog.size_hint = [0.8, 0.8]
         dialog.pos_hint = {"center_x": 0.5, "center_y": 0.5}
         dialog.open()
-    
+
     def close_dialog(self, obj):
         """Close GPS Dialog Error Box"""
         self.dialog.dismiss()  # To close the dialog box

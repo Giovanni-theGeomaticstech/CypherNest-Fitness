@@ -3,7 +3,6 @@ from mapview import MapView
 
 
 class TextInputTest(unittest.TestCase):
-
     def test_init_simple_map(self):
         """
         Makes sure we can initialize a simple MapView object.
@@ -13,6 +12,7 @@ class TextInputTest(unittest.TestCase):
         self.assertEqual(len(mapview.children), 2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import unittest
+
     unittest.main()

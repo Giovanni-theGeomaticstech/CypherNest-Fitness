@@ -128,9 +128,9 @@ class ProfileScreen(Screen):
 
         # RUN THIS ONCE EVERYTHING IS INITIALIZED
 
-        user_email = screen_nav_elements["user_email"] # Place holder email content
-        user_name = screen_nav_elements["user_name"] # Place holder user name
-        
+        user_email = screen_nav_elements["user_email"]  # Place holder email content
+        user_name = screen_nav_elements["user_name"]  # Place holder user name
+
         running_app = MDApp.get_running_app().root
 
         if running_app.user:
@@ -145,8 +145,8 @@ class ProfileScreen(Screen):
         running_preface = MDApp.get_running_app()
 
         with open(running_preface.file_path, "w") as f:
-                f.write("") # Empty the User token file
-                f.close()
+            f.write("")  # Empty the User token file
+            f.close()
         running_app = MDApp.get_running_app().root
         running_app.current = "Login"
 
@@ -158,10 +158,13 @@ class ProfileScreen(Screen):
         running_app.user_journeys = None  # We initialize this here
         running_app.current = "Journeys"
 
+
 # Second
 class ContentNavigationDrawer(BoxLayout):
     """ A Box Layout Class which contains the Information for our Navigation Menu"""
+
     pass
+
 
 # Third
 class NavMenuList(MDList):

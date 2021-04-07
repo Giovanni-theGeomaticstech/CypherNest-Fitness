@@ -1,8 +1,9 @@
 from kivy.base import runTouchApp
 import sys
 
-if __name__ == '__main__' and __package__ is None:
+if __name__ == "__main__" and __package__ is None:
     from os import path
+
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 from mapview import MapView, MapMarker

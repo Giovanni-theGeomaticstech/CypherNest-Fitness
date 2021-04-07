@@ -97,7 +97,7 @@ class LoginScreen(Screen):
             spacing=25,
             size=("350dp", "400dp"),
             pos_hint={"center_y": 0.45},
-            orientation='vertical',
+            orientation="vertical",
             adaptive_size=True,
             adaptive_height=True,
             adaptive_width=True,
@@ -137,9 +137,11 @@ class LoginScreen(Screen):
 
         # For Logging in Automatically if previously logged in
         running_preface = MDApp.get_running_app()
-        if running_preface.user_file_token: # Pass the token saved in a file
+        if running_preface.user_file_token:  # Pass the token saved in a file
             # print(running_preface.file_path)
-            Clock.schedule_once(self.skip_login, 0.5)  # Here we skip the login after 1/2 a second
+            Clock.schedule_once(
+                self.skip_login, 0.5
+            )  # Here we skip the login after 1/2 a second
 
     def show_password(self):
         print(self.icon_right)
@@ -153,9 +155,7 @@ class LoginScreen(Screen):
 
         # Add the buttons field to add buttons to dialog
         self.dialog = MDDialog(
-            title="User Validation",
-            size_hint=[0.7, 1],
-            buttons=[profile_button],
+            title="User Validation", size_hint=[0.7, 1], buttons=[profile_button]
         )
 
         self.success = False  # For successful login
@@ -163,7 +163,7 @@ class LoginScreen(Screen):
         self.login_token = login(
             self.username.text, self.password.text
         )  # login interface
-    
+
         # SO SOME REQUEST FUNCTIONS
         if self.login_token:
             self.dialog.title = "Successful User Login"
@@ -191,15 +191,15 @@ class LoginScreen(Screen):
 
             # Change Screen to profile Screen
             running_app.current = "Profile"
-    
+
     def update_user_token_file(self, new_token):
         # Update Automatic login file with an access token
         # Overwrites Previous login data
         running_preface = MDApp.get_running_app()
 
         with open(running_preface.file_path, "w") as f:
-                f.write(new_token)
-                f.close()
+            f.write(new_token)
+            f.close()
 
     def skip_login(self, dt):
         """Skip Submitting Login Data
@@ -214,10 +214,9 @@ class LoginScreen(Screen):
 
         # {'detail': 'Invalid token.'} That is the message for expired token
         # Your token Lasts for only 10 hours
-        if 'detail' in running_app.user.keys(): # If token has expired do not change page
+        if (
+            "detail" in running_app.user.keys()
+        ):  # If token has expired do not change page
             pass
         else:
             running_app.current = "Profile"
-
-        
-

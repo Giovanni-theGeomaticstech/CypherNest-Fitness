@@ -21,7 +21,8 @@ from kivymd.uix.label import MDLabel
 # Graphs
 import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
+
+matplotlib.use("module://kivy.garden.matplotlib.backend_kivy")
 from kivy.garden.matplotlib.backend_kivy import FigureCanvas
 
 # Numpy
@@ -110,6 +111,7 @@ class JourneysScreen(Screen):
         - Speed Stats
         - Basic Journey Stats
     """
+
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
 
@@ -121,22 +123,25 @@ class JourneysScreen(Screen):
 
     def return_home(self):
         MDApp.get_running_app().root.current = "Profile"
-    
+
     def review_journeys(self):
         """Update the Journey in the Journey Map Screen"""
         journey_screen_box = self.children[0]
-        speed_stats_screen = journey_screen_box.ids['speed_stats_tab'] 
-        self.graph_schedule = Clock.schedule_once(speed_stats_screen.create_figures, 0.5)  # Call after 0.5 seconds
+        speed_stats_screen = journey_screen_box.ids["speed_stats_tab"]
+        self.graph_schedule = Clock.schedule_once(
+            speed_stats_screen.create_figures, 0.5
+        )  # Call after 0.5 seconds
 
 
 # 2
 class JourneysBoxLayout(MDBoxLayout):
     """ The Layout Manager for the Journey's Screen"""
+
     def journey_list_screen(self, menu=None):
         """ Change to Journey list Screen"""
         # print(self.ids) # If you want to see all the id reference
         try:
-            journey_manager = self.ids['Journey-manager']
+            journey_manager = self.ids["Journey-manager"]
             journey_manager.current = "Journey-lists-screen"
         except (AttributeError, KeyError):
             print("Cannot Switch")
@@ -149,8 +154,8 @@ class JourneysBoxLayout(MDBoxLayout):
         running_preface = MDApp.get_running_app()
 
         with open(running_preface.file_path, "w") as f:
-                f.write("") # Empty the User token file
-                f.close()
+            f.write("")  # Empty the User token file
+            f.close()
         running_app = MDApp.get_running_app().root
         running_app.current = "Login"
 
@@ -163,18 +168,22 @@ class JourneyListScreen(Screen):
     """The Journey List Screen
             This is where each journey that was created by the user is listed
     """
+
     def refresh_callback(self, *args):
-        '''A method that updates the state of your application
-        while the spinner remains on the screen.'''
+        """A method that updates the state of your application
+        while the spinner remains on the screen."""
         # https://kivymd.readthedocs.io/en/latest/components/refresh-layout/
         def refresh_callback(interval):
             """CLEARS AND UPDATES JOURNEY LISTS"""
-            self.refresh_layout = self.children[1] # For the RefreshLayout, index 0 for the Spinner
+            self.refresh_layout = self.children[
+                1
+            ]  # For the RefreshLayout, index 0 for the Spinner
             self.list_of_journeys = self.refresh_layout.clear_widgets()
             self.refresh_layout.add_widget(JourneyList())
             self.refresh_layout.refresh_done()
 
         Clock.schedule_once(refresh_callback, 0.8)
+
 
 # 4
 class JourneyList(MDList):
@@ -182,6 +191,7 @@ class JourneyList(MDList):
     List of Journeys for the user.
     Note: This Info would come from the Database
     """
+
     def __init__(self, **kwargs):
         # Here were are going to modify the Drawer List items
 
@@ -203,14 +213,16 @@ class JourneyList(MDList):
         self.journey_feature = None  # Initialize a journey Line
         self.return_btn = None
         self.screen_manager = None
-        self.clock = Clock.schedule_interval(self.initiate_journeys, 2) # Load the Journey list
+        self.clock = Clock.schedule_interval(
+            self.initiate_journeys, 2
+        )  # Load the Journey list
 
     def initiate_journeys(self, instance):
         """ Add our created Journeys"""
         # https://github.com/kivy/plyer/blob/master/plyer/facades/orientation.py
-        if platform == 'android':
+        if platform == "android":
             orientation.set_sensor()
-        elif platform == 'ios':
+        elif platform == "ios":
             pass
 
         # Get the current screen
@@ -242,7 +254,9 @@ class JourneyList(MDList):
             image = ImageLeftWidget(source="img/route_google_map.png")
 
             # Image right widget is not working in the source code
-            item_image = OneLineAvatarListItem(text=journey_name, on_press=self.picked_journey)
+            item_image = OneLineAvatarListItem(
+                text=journey_name, on_press=self.picked_journey
+            )
             item_image.journey_info = item  # we add the journey data to the instance
             item_image.add_widget(image)
 
@@ -268,7 +282,7 @@ class JourneyList(MDList):
         # Button to add
         go_to_button = MDFlatButton(
             text="View Journey", on_release=self.journey_dialog_helper
-        ) # Button for viewing journey in the map
+        )  # Button for viewing journey in the map
         close_dialogue = MDFlatButton(text="Close", on_release=self.close_dialog)
 
         # Dialog Widget
@@ -291,7 +305,7 @@ class JourneyList(MDList):
 
         # For the Map Screen
         self.map_screen = self.screens_list[1]
-        self.journey_layout = self.map_screen.children[0] # For the Box Layout
+        self.journey_layout = self.map_screen.children[0]  # For the Box Layout
         self.mapview = self.journey_layout.children[0]
         self.mapview.map_source = self.map_layers[0]  # Change our Map Layer
 
@@ -301,20 +315,18 @@ class JourneyList(MDList):
         ################################
         # View Journey on Journey Map Screen
         try:
-            self.journey_data['feature_info']['properties']
+            self.journey_data["feature_info"]["properties"]
         except KeyError:
-            self.journey_data['feature_info']['properties'] = None
-        
+            self.journey_data["feature_info"]["properties"] = None
+
         self.view_journey(
             data=self.journey_data["feature_info"]["geometry"]["coordinates"],
-            properties=self.journey_data['feature_info']['properties']
+            properties=self.journey_data["feature_info"]["properties"],
         )
 
         # Update Speed stats screen with new journey
         journey_screen = MDApp.get_running_app().root.screens[2]
         journey_screen.review_journeys()
-
-
 
     def view_journey(self, data=None, properties=None):
         """ View Journey shows an individual journey on the map layer
@@ -324,14 +336,16 @@ class JourneyList(MDList):
                 journey_id: This is used to choose a journey from all those done by a user
         """
         if data:
-            if self.journey_feature == None: # If it does not exists
-                self.journey_feature = LineMapLayer()  # We initialize a new journey feature
-                self.journey_feature.coordinates = data # A normal List
+            if self.journey_feature == None:  # If it does not exists
+                self.journey_feature = (
+                    LineMapLayer()
+                )  # We initialize a new journey feature
+                self.journey_feature.coordinates = data  # A normal List
 
                 # We pass coordinates for the journey feature
                 self.journey_feature.name = "Journey Line"
                 self.mapview.add_layer(self.journey_feature)
-            else:   # Else we just change coordinates
+            else:  # Else we just change coordinates
                 self.journey_feature.coordinates = data
 
             # this helps to show the line on the map
@@ -341,24 +355,26 @@ class JourneyList(MDList):
             # Store Journey Info in the running app
             running_app = MDApp.get_running_app().root
 
-            try: # Remove this after clearing all other Journeys in Database
-                properties['speed'] = np.array(properties['speed'])
-                properties['time'] = np.array(properties['time'])
-                properties['altitude'] = np.array(properties['altitude'])
-                properties['bearing'] = np.array(properties['bearing'])
+            try:  # Remove this after clearing all other Journeys in Database
+                properties["speed"] = np.array(properties["speed"])
+                properties["time"] = np.array(properties["time"])
+                properties["altitude"] = np.array(properties["altitude"])
+                properties["bearing"] = np.array(properties["bearing"])
                 MDApp.get_running_app().root.journey_props = properties
                 # print("Journey was Chosen")
-            except (AttributeError,KeyError, TypeError):
+            except (AttributeError, KeyError, TypeError):
                 print("No Journey Chosen As Yet")
 
 
 class JourneyMapScreen(Screen):
     """Shows a selected journey on the map"""
+
     pass
 
 
 class JourneySpeedStats(MDBottomNavigationItem):
     """ This is for the Speed Stats"""
+
     # Maybe Show all the stats??
     # Or just one
     def __init__(self, **kwargs):
@@ -374,7 +390,7 @@ class JourneySpeedStats(MDBottomNavigationItem):
         scroll_view_box = scroll_view.children[0]
 
         try:
-            running_app.journey_props['speed']
+            running_app.journey_props["speed"]
             print("Updating Journey")
             scroll_view_box.clear_widgets()
             self.speed_vs_time_graph()
@@ -388,13 +404,13 @@ class JourneySpeedStats(MDBottomNavigationItem):
         running_app = MDApp.get_running_app().root
         fig, ax = plt.subplots()
 
-        speed = running_app.journey_props['speed']
-        time = running_app.journey_props['time']
+        speed = running_app.journey_props["speed"]
+        time = running_app.journey_props["time"]
 
         plt.plot(time, speed)
-        plt.title('Speed vs Time Graph')
-        plt.xlabel('Time (ms)')
-        plt.ylabel('Speed (m/ms)')
+        plt.title("Speed vs Time Graph")
+        plt.xlabel("Time (ms)")
+        plt.ylabel("Speed (m/ms)")
 
         my_graph = FigureCanvas(fig)
 
@@ -407,14 +423,16 @@ class JourneySpeedStats(MDBottomNavigationItem):
         running_app = MDApp.get_running_app().root
         fig, ax = plt.subplots()
 
-        speed = running_app.journey_props['speed']
-        time = running_app.journey_props['time']
-        distance = speed/time  # Numpy allows us to perform this calc of dividing arrays quickly
+        speed = running_app.journey_props["speed"]
+        time = running_app.journey_props["time"]
+        distance = (
+            speed / time
+        )  # Numpy allows us to perform this calc of dividing arrays quickly
 
         plt.plot(distance, speed)
-        plt.title('Speed vs Distance Graph')
-        plt.xlabel('Distance (ms)')
-        plt.ylabel('Speed (m/ms)')
+        plt.title("Speed vs Distance Graph")
+        plt.xlabel("Distance (ms)")
+        plt.ylabel("Speed (m/ms)")
 
         my_graph = FigureCanvas(fig)
 
