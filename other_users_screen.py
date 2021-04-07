@@ -172,7 +172,7 @@ class UsersList(MDList):
 
         popup_info = (
             f"User name: {self.other_user_data['username']} \n"
-            f"Journey ID: {self.other_user_data['email']} \n"
+            f"Email: {self.other_user_data['email']} \n"
         )
 
         # Button to add
