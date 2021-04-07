@@ -1,0 +1,31 @@
+#:import MapView kivy_garden.mapview.MapView
+#:import LocationBlinker locationblinker.LocationBlinker
+#:include locationblinker.kv
+
+
+BoxLayout:
+    orientation:'vertical'
+    MDToolbar: # Add a Home Icon
+        title: 'New Journey'
+        left_action_items: [["home", lambda x: app.get_running_app().root.screens[2].return_home(), "Back to Profiles Page"]]
+        right_action_items: [["crosshairs-gps", lambda x: app.get_running_app().root.screens[3].start_tracking(), "Start Tracking"]]
+        md_bg_color: .2, .2, .2, 1
+        specific_text_color: 1, 1, 1, 1
+    MapView:
+        id:mapview
+        #lat: 43.6532
+        #lon: -79.3832 # Toronto
+        zoom: 13
+        on_zoom:
+            self.zoom = 13 if self.zoom < 13 else self.zoom 
+        #on_lat:
+         #   print('lat', self.lat)
+        #on_lon:
+         #   print('lon', self.lon)
+        LocationBlinker:
+            id: blinker
+    #MDLabel:
+     #   id:temp_speed
+      #  size_hint:0.20,0.15
+      #  pos_hint: {'center_x': 0.60}
+      #  text:'Current-Speed: 0'
