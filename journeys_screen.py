@@ -100,7 +100,8 @@ JourneysBoxLayout:
             # text_color_active: 1, 0, 1, 1
             MDLabel:
                 text: 'Coming Soon'
-                pos_hint: {"center_x":0.5}
+                size_hint: 0.3,1
+                pos_hint: {"center_x":0.52}
 """
 
 # 1

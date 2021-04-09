@@ -89,6 +89,12 @@ class MapScreen(Screen):
 
     def start_tracking(self):
         """ Start and stop our GPS Tracking """
+        ######################
+        # HERE TO CHANGE MAP TILE LAYER
+        # I DID NOT TEST IF IT MESSES WITH BLINKER UPDATES BUT I DONT THINK IT SHOULD
+        # self.change_map(instance=None) # Change the map type
+        ######################
+
         self.current_screen = MDApp.get_running_app().root.screens[3]  # For this screen
         # Note self is the screen
         self.mapview = self.children[0].ids["mapview"]  # Our Map
@@ -195,7 +201,12 @@ class GpsActivate:
                     )  # Here we configure auth
                     # We can get speed, lat, long, bearing, altitude
                     # https://github.com/kivy/plyer/blob/master/plyer/facades/gps.py
-                    gps.start(minTime=1000, minDistance=0)  # 300 milliseconds
+                    ################################################
+                    # FREQUENCY OF GPS CALL
+                    # 1000ms minTime = 1 second
+                    # minDistance is in Metres
+                    gps.start(minTime=1000, minDistance=0)
+                    ################################################
                 else:
                     print("Did not get all permissions")
 
@@ -205,6 +216,8 @@ class GpsActivate:
             )
 
         # Configure GPS IOS
+        #########################################
+        # NOTE I DIDNT GET THE IOS APP WORKING
         if platform == "ios":
             from plyer import gps
 
@@ -212,6 +225,7 @@ class GpsActivate:
                 on_location=self.update_blinker_position, on_status=self.on_auth_status
             )
             gps.start(minTime=1000, minDistance=0)
+        ##########################################
 
     def update_blinker_position(self, *args, **kwargs):
         """ Updating Blinker Position with the GPS Coordinates """
@@ -255,9 +269,15 @@ class GpsActivate:
                 map.center_on(my_lat, my_lon)  # Center Map
                 self.has_centered_map = True
             else:
+                ###########################################
+                # UPDATE MAP CENTERING
+                # CURRENTLY EVERY 2 SECONDS
+                # CHANGE THIS HERE IF YOU WANT THE BLINKER POSITION TO UPDATE FASTER ON THE MAP
+                # 0 MAY NOT WORK , SO DO NOT CHOOSE 0 seconds
                 self.center_map_clock = Clock.schedule_once(
                     self.center_map_location, 2
                 )  # Center map every 2 seconds
+                ###########################################
         else:
             self.time += 1
 
