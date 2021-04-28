@@ -2,6 +2,9 @@
 - A journey tracker app that allows the user to use their phones GPS
 - Visualize their journey and journey history and see other users.
 
+## Install it on Android
+- Install the lastest build in the `APK_files/cypher_app-0.8.7.apk`
+
 ## Basic Documentation
 
 * [Diagrams for Application](https://drive.google.com/file/d/1l7GN18XhpE-U18DkXAxxFoofquFUikrs/view?usp=sharing)
