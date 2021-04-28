@@ -49,6 +49,13 @@
 
 ### Application Images
 <p align="center">
-  <img src="captures/image_1.PNG" width="350" title="Login">
-  <img src="captures/image_2.PNG" width="350" alt="Successful Login">
+  <img src="captures/image_1.PNG" width="200" alt="Login">
+  <img src="captures/image_2.PNG" width="200" alt="Successful Login">
+  <img src="captures/image_3.PNG" width="200" alt="Profile screen navigation menu">
+  <img src="captures/image_4.PNG" width="200" alt="Users list screen">
+  <img src="captures/image_5.PNG" width="200" alt="New Journey Map screen (GPS not activated)">
+  <img src="captures/image_6.PNG" width="200" alt="New Journey Map screen (GPS activated)">
+  <img src="captures/image_7.PNG" width="200" alt="Selected journey in Journeys' screen">
+  <img src="captures/image_8.PNG" width="200" alt="Selected journey on map">
+  <img src="captures/image_9.PNG" width="200" alt="Speed statistics for selected journey">
 </p>
