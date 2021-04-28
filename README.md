@@ -49,13 +49,13 @@
 
 ### Application Images
 <p align="center">
-  <img src="captures/image_1.PNG" width="200" height='300' alt="Login"></br>
-  <img src="captures/image_2.PNG" width="200" height='300' alt="Successful Login"></br>
-  <img src="captures/image_3.PNG" width="200" height='300' alt="Profile screen navigation menu"></br>
-  <img src="captures/image_4.PNG" width="200" height='300' alt="Users list screen"></br>
-  <img src="captures/image_5.PNG" width="200" height='300' alt="New Journey Map screen (GPS not activated)"></br>
-  <img src="captures/image_6.PNG" width="200" height='300' alt="New Journey Map screen (GPS activated)"></br>
-  <img src="captures/image_7.PNG" width="200" height='300' alt="Selected journey in Journeys' screen"></br>
-  <img src="captures/image_8.PNG" width="200" height='300' alt="Selected journey on map"></br>
-  <img src="captures/image_9.PNG" width="200" height='300' alt="Speed statistics for selected journey">
+  <img src="captures/image_1.PNG" width="200" alt="Login"></br>
+  <img src="captures/image_2.PNG" width="200" alt="Successful Login"></br>
+  <img src="captures/image_3.PNG" width="200" alt="Profile screen navigation menu"></br>
+  <img src="captures/image_4.PNG" width="200" alt="Users list screen"></br>
+  <img src="captures/image_5.PNG" width="200" alt="New Journey Map screen (GPS not activated)"></br>
+  <img src="captures/image_6.PNG" width="200" alt="New Journey Map screen (GPS activated)"></br>
+  <img src="captures/image_7.PNG" width="200" alt="Selected journey in Journeys' screen"></br>
+  <img src="captures/image_8.PNG" width="200" alt="Selected journey on map"></br>
+  <img src="captures/image_9.PNG" width="200" alt="Speed statistics for selected journey">
 </p>
