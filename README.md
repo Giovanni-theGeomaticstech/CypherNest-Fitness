@@ -48,7 +48,7 @@
 * The `gradle` configurations
 
 ### Application Images
-<p align="center">
+<p>
   <img src="captures/image_1.PNG" width="200" alt="Login"></br>
   <img src="captures/image_2.PNG" width="200" alt="Successful Login"></br>
   <img src="captures/image_3.PNG" width="200" alt="Profile screen navigation menu"></br>
