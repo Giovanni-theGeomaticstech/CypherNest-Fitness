@@ -3,7 +3,7 @@
 - Visualize their journey and journey history and see other users.
 
 ## Install it on Android
-- Install the lastest build in the `APK_files/cypher_app-0.8.7.apk`
+- Install the lastest build in the `APK_files/cypher_app-0.8.7.apk` folder
 
 ## Basic Documentation
 
