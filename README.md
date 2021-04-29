@@ -42,7 +42,7 @@
 * [Link to Google Collab to build application](https://colab.research.google.com/drive/1v_hddp6fp7sMj-uw1yOZLp89kGDaURbh?usp=sharing)
 * `buildozer.spec` file consists of the configuration to make Android App
 
-#### COnfiguration involves (buildozer.spec)
+#### Configuration involves (buildozer.spec)
 * The python packages used in the application
 * The `sdk` and `ndk` files
 * The `gradle` configurations
